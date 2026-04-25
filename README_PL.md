@@ -89,8 +89,6 @@ ros2-jetson-uart-lcd-distance/
 ├── README.md
 ├── README_PL.md
 ├── requirements.txt
-├── docs/
-│   └── Pkum.pdf
 ├── images/
 │   ├── setup_connected.jpg
 │   └── setup_disconnected.jpg
