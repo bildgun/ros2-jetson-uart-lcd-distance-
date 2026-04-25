@@ -111,15 +111,18 @@ ros2-jetson-uart-lcd-distance/
 
 ## Demo
 
-<p align="center">
-  <img src="images/setup_connected.jpg" width="45%" />
-  <img src="images/setup_disconnected.jpg" width="45%" />
-</p>
-
-<p align="center">
-  <b>Left:</b> Sensor connected and system operating normally<br>
-  <b>Right:</b> Sensor disconnected (heartbeat mode)
-</p>
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="images/setup_connected.jpg" height="250"/><br>
+      <sub>Sensor connected and system operating normally</sub>
+    </td>
+    <td align="center">
+      <img src="images/setup_disconnected.jpg" height="250"/><br>
+      <sub>Sensor disconnected (heartbeat mode)</sub>
+    </td>
+  </tr>
+</table>
 
 ## Author
 
