@@ -104,6 +104,23 @@ ros2-jetson-uart-lcd-distance/
             ├── lcd_publisher.py
             └── lcd_subscriber.py
 ```
+
+## Przykład działania
+
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="images/setup_connected.jpg" height="250"/><br>
+      <sub>Czujnik podłączony – system działa poprawnie</sub>
+    </td>
+    <td align="center">
+      <img src="images/setup_disconnected.jpg" height="250"/><br>
+      <sub>Czujnik odłączony – tryb heartbeat</sub>
+    </td>
+  </tr>
+</table>
+
+
 ## Autor
 
 Bohdan Susulovskyi  
