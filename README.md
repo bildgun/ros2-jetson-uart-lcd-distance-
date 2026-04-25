@@ -1,56 +1,121 @@
-🇬🇧 English | [🇵🇱 Polski](README_PL.md)
+English | [Polski](README_PL.md)
 
 # ROS2 Jetson UART Distance Sensor with I2C LCD Display
 
 This project demonstrates a simple embedded sensor system built using ROS2 on NVIDIA Jetson Orin Nano.
 
-It reads distance data from a UART sensor, publishes it to a ROS2 topic, and displays it on a 16x2 LCD via I2C.
+The system reads distance data from a UART-based sensor, publishes it to a ROS2 topic, and displays it on a 16x2 LCD connected via I2C.
 
----
-
-##  Use case
+## Use case
 
 This project simulates a basic onboard sensor module for UAV systems.
 
----
-
-##  Features
+## Features
 
 - ROS2 Humble (Python nodes)
-- UART communication (distance sensor)
-- 4-byte frame parsing: `FF DH DL CS`
+- UART communication with a distance sensor
+- 4-byte frame parsing: FF DH DL CS
 - Checksum validation
-- Topic-based communication (`/lcd/text`)
-- LCD display via I2C
-- Heartbeat mode (when sensor is disconnected)
+- Topic-based communication using /lcd/text
+- LCD display via I2C (16x2)
+- Heartbeat mode when sensor data is unavailable
 
----
-
-##  Hardware
+## Hardware
 
 - NVIDIA Jetson Orin Nano
 - UART distance sensor
-- USB–UART converter (TTL-232R)
-- 16x2 LCD (I2C)
+- USB–UART converter (e.g. TTL-232R)
+- 16x2 LCD with I2C interface
 - Ubuntu 22.04
 - ROS2 Humble
 
----
+## System architecture
 
-##  System architecture
+[UART Sensor] -> [lcd_publisher] -> /lcd/text -> [lcd_subscriber] -> [I2C LCD]
 
-```text
-[UART Sensor]
-      |
-      v
-[lcd_publisher]
-      |
-      v
-ROS2 topic: /lcd/text
-      |
-      v
-[lcd_subscriber]
-      |
-      v
-[I2C LCD]
-```
+## ROS2 Nodes
+
+### lcd_publisher
+
+Reads raw data from UART, parses frames and publishes formatted distance.
+
+Frame format:
+FF DH DL CS
+
+Distance calculation:
+distance_mm = DH * 256 + DL
+
+Checksum:
+CS == (FF + DH + DL) & 0xFF
+
+Example output:
+Distance:
+122 mm
+
+### lcd_subscriber
+
+Subscribes to /lcd/text and displays received text on a 16x2 LCD via I2C.
+
+## Installation
+
+mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws/src
+git clone https://github.com/YOUR_USERNAME/ros2-jetson-uart-lcd-distance.git
+cd ~/ros2_ws
+
+pip install -r src/ros2-jetson-uart-lcd-distance/requirements.txt
+
+colcon build
+source install/setup.bash
+
+## Run
+
+ros2 run py_pubsub lcd_publisher
+ros2 run py_pubsub lcd_subscriber
+
+Run with custom UART port:
+ros2 run py_pubsub lcd_publisher --ros-args -p port:=/dev/ttyUSB0
+
+Run with custom I2C address:
+ros2 run py_pubsub lcd_subscriber --ros-args -p i2c_address:=39
+
+## Repository structure
+
+ros2-jetson-uart-lcd-distance/
+├── README.md
+├── README_PL.md
+├── requirements.txt
+├── docs/
+│   └── Pkum.pdf
+├── images/
+│   ├── setup_connected.jpg
+│   └── setup_disconnected.jpg
+└── src/
+    └── py_pubsub/
+        ├── package.xml
+        ├── setup.py
+        ├── setup.cfg
+        ├── resource/
+        │   └── py_pubsub
+        └── py_pubsub/
+            ├── __init__.py
+            ├── lcd_publisher.py
+            └── lcd_subscriber.py
+
+## Documentation
+
+See:
+docs/Pkum.pdf
+
+## Future improvements
+
+- Add ROS2 launch file
+- Add GPS integration
+- Add camera/YOLO node
+- Add multi-sensor fusion
+- Add diagnostics topic
+
+## Author
+
+Bohdan Susulovskyi  
+WAT, Avionics
